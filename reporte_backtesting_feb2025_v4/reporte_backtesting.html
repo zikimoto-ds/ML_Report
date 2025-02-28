@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte de Backtesting del Modelo de Originacion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      text-align: center;
+    }
+    h1, h2, h3, h4 {
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    /* Contenedor que agrupa el encabezado y el primer contenido para evitar saltos de página entre ellos */
+    .header-container {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .header-title {
+      margin-bottom: 20px;
+      /* Aseguramos que no se forcen saltos después del encabezado */
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Evitar saltos de página al imprimir en secciones */
+    @media print {
+      .section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        orphans: 3;
+        widows: 3;
+      }
+    }
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .metric-box {
+      flex: 1;
+      min-width: 150px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .metric-label {
+      font-size: 14px;
+      color: #666;
+    }
+    .alert-alto {
+      color: white;
+      background-color: #d9534f;
+      border-color: #d43f3a;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .alert-medio {
+      color: #8a6d3b;
+      background-color: #fcf8e3;
+      border-color: #faebcc;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .alert-bajo {
+      color: #3c763d;
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .chart-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .chart {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .chart-explanation {
+      background-color: #f9f9f9;
+      border-left: 4px solid #007bff;
+      padding: 10px 15px;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
+    .chart-interpretation {
+      background-color: #e8f4ff;
+      border-left: 4px solid #4a86e8;
+      padding: 10px 15px;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+    /* Nueva clase para agrupar el título y el contenido del gráfico */
+    .chart-group {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <!-- Primer contenido: Resumen Ejecutivo -->
+      <div class="section">
+        <!-- Agrupamos el encabezado y el primer bloque para que se impriman juntos -->
+        <div class="header-container">
+          <div class="header-title">
+            <h1>Reporte de Backtesting del Modelo de Originacion</h1>
+            <p>Fecha de análisis: 28 de febrero de 2025</p>
+            <p>Linea de negocio: T-Conecta</p>
+          </div>
+        <h2>Resumen Ejecutivo</h2>
+        
+        <div class="dashboard">
+          <div class="metric-box" style="background-color: #fcf8e3;">
+            <div class="metric-label">AUC</div>
+            <div class="metric-value">69.8%</div>
+            <div>Discriminación</div>
+          </div>
+          
+          <div class="metric-box" style="background-color: #fcf8e3;">
+            <div class="metric-label">KS</div>
+            <div class="metric-value">29.7%</div>
+            <div>Separación</div>
+          </div>
+          
+          <div class="metric-box">
+            <div class="metric-label">Accuracy</div>
+            <div class="metric-value">63.9%</div>
+            <div>Precisión Global</div>
+          </div>
+          
+          <div class="metric-box">
+            <div class="metric-label">Punto de Corte</div>
+            <div class="metric-value">0.492</div>
+            <div>Óptimo (KS)</div>
+          </div>
+          
+          <div class="metric-box" style="background-color: #f2dede;">
+            <div class="metric-label">Gini</div>
+            <div class="metric-value">39.7%</div>
+            <div>Discriminación</div>
+          </div>
+        </div>
+        
+        <h3>Alertas</h3>
+        <div class="alert-medio">AUC moderado ( 0.6983 ). El modelo tiene poder discriminativo aceptable.</div>
+        <div class="alert-medio">KS moderado ( 0.297 ). Separación moderada entre buenos y malos clientes.</div>
+        <div class="alert-alto">IV alto ( 0.5215 ). Muy buen poder predictivo, verificar si hay sobreajuste.</div>
+        <div class="alert-medio">Diferencia moderada entre sensibilidad ( 0.7029 ) y especificidad ( 0.5936 ).</div>
+        <div class="alert-alto">Problemas de calibración. Desviación máxima de  15.2 % entre probabilidades predichas y observadas.</div>
+        
+        <h3>Evaluación Estratégica</h3>
+        <h4>Desempeño General</h4>
+        <p>El modelo muestra un desempeño moderado con capacidad discriminativa aceptable. Puede ser utilizado para decisiones crediticias con monitoreo continuo.</p>
+        
+        <h4>Balance del Modelo</h4>
+        <p>El modelo está optimizado para detectar clientes de alto riesgo (alta sensibilidad) a costa de rechazar algunos buenos clientes. Esto es apropiado en contextos de alto riesgo o exposiciones grandes.</p>
+        
+        <h4>Recomendaciones sobre Punto de Corte</h4>
+        <p>El punto de corte óptimo según KS es 0.4924. Sin embargo, dependiendo de los objetivos de negocio, se podría considerar:<br>- Un punto de corte más alto para reducir el riesgo (mayor capacidad para identificar clientes de alto riesgo, menor tasa de aprobación)<br>- Un punto de corte más bajo para aumentar volumen (mayor tasa de aprobación a costa de incluir algunos clientes con mayor riesgo)</p>
+        
+        <h4>Recomendaciones sobre Segmentación</h4>
+        <p>El ratio entre la tasa de malos del decil de mayor riesgo y el de menor riesgo es 4.57x. Se recomienda implementar estrategias diferenciadas por nivel de riesgo:<br>- Deciles 1-3 (mayor riesgo): Mayor supervisión, garantías adicionales o tasas más altas para compensar el riesgo<br>- Deciles 4-7 (riesgo medio): Condiciones estándar<br>- Deciles 8-10 (menor riesgo): Posibles beneficios, tasas preferenciales o mayor línea de crédito</p>
+        
+        
+      </div>
+    </div>
+    
+    <!-- Resto del contenido -->
+    <div class="section">
+      <div class="row">
+        <div class="chart-group">
+          <div class="container">
+            <div class="header-title">
+              <h1>Métricas Detalladas</h1>
+            </div>
+          <h3>Curva ROC y Capacidad Discriminativa</h3>
+          <div class="chart-container">
+            <img class="chart" src="curva_roc.png" alt="Curva ROC">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> La curva ROC muestra la relación entre la Tasa de Verdaderos Positivos y la Tasa de Falsos Positivos para distintos puntos de corte. Un AUC mayor indica mejor discriminación.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> La curva ROC ilustra el equilibrio entre sensibilidad (tasa de verdaderos positivos) y 1-especificidad (tasa de falsos positivos) a diferentes puntos de corte. Con un AUC de 0.698, el modelo muestra un poder discriminativo moderado. Aunque está por encima del nivel aleatorio (0.5), hay margen para mejorar la capacidad del modelo para distinguir entre clientes de alto y bajo riesgo. Podría ser suficiente para algunas aplicaciones menos críticas o como complemento a otros criterios de decisión.
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-group">
+          <h3>Gráfico KS (Máxima Separación)</h3>
+          <div class="chart-container">
+            <img class="chart" src="grafico_ks.png" alt="Gráfico KS">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> El gráfico KS muestra las distribuciones acumulativas de clientes buenos y malos. La separación máxima (KS) indica el punto óptimo.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El gráfico KS muestra la separación entre las distribuciones acumulativas de clientes buenos y malos. Con un valor KS de 0.297, el modelo muestra una capacidad moderada para separar clientes buenos y malos. Aunque aceptable, hay margen para mejorar la capacidad discriminativa del modelo. El punto de corte óptimo según KS es 0.4924, donde se maximiza la diferencia entre las distribuciones acumulativas de buenos y malos clientes.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="chart-group">
+          <h3>Distribución de Predicciones</h3>
+          <div class="chart-container">
+            <img class="chart" src="histograma_predicciones.png" alt="Distribución de Predicciones">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Este histograma muestra la distribución de probabilidades predichas. Una distribución uniforme indica buen comportamiento, mientras que picos podrían sugerir problemas.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> La distribución de probabilidades predichas muestra múltiples picos, lo que sugiere una buena separación entre grupos de riesgo. La diferencia entre las medias de probabilidad para clientes buenos (0.459) y malos (0.537) es pequeña, lo que podría indicar una limitada capacidad discriminativa del modelo.
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-group">
+          <h3>Predicciones por Grupo (Buenos vs Malos)</h3>
+          <div class="chart-container">
+            <img class="chart" src="boxplot_por_grupo.png" alt="Boxplot por Grupo">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Compara las distribuciones de probabilidades para clientes buenos y malos. Una separación clara indica buena discriminación.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El boxplot muestra la distribución de probabilidades predichas para clientes buenos (0) y malos (1). La diferencia entre las medianas es pequeña (0.092), sugiriendo una capacidad de discriminación limitada del modelo. Existe una superposición moderada entre los rangos intercuartílicos, indicando que algunos clientes podrían ser difíciles de clasificar correctamente. 
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chart-group">
+        <h3>Calibración del Modelo por Decil</h3>
+        <div class="chart-container">
+          <img class="chart" src="calibracion.png" alt="Calibración del Modelo">
+          <div class="chart-explanation">
+            <strong>Cómo interpretar:</strong> Compara la probabilidad predicha con la tasa real observada para cada decil. La cercanía a la diagonal indica buena calibración.
+          </div>
+          <div class="chart-interpretation">
+            <strong>Interpretación para este modelo:</strong> El gráfico de calibración compara las probabilidades predichas por el modelo con las tasas reales observadas. El modelo muestra problemas de calibración, con una desviación máxima de 15.2% entre valores predichos y observados. Existe una clara tendencia a sobreestimar el riesgo en la mayoría de los deciles, lo que podría llevar a rechazos innecesarios de buenos clientes. La mayor desviación se observa en el decil 8, donde el modelo sobreestima el riesgo en 15.2%. Se recomienda considerar una recalibración del modelo, especialmente para los deciles con mayores desviaciones, para mejorar la precisión de las probabilidades predichas.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+        <div class="chart-group">
+          <div class="container">
+            <div class="header-title">
+              <h1>Matriz de Confusión y Análisis de Clasificación</h1>
+            </div>
+          <h3>Matriz de Confusión</h3>
+          <div class="chart-container">
+            <img class="chart" src="tabla_contingencia.png" alt="Matriz de Confusión">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> La matriz muestra la distribución de predicciones versus valores reales. Los cuadrantes indican VN, FP, FN y VP.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> La tabla de contingencia muestra que de un total de 7508 casos: 2207 clientes de alto riesgo fueron correctamente identificados (Verdaderos Positivos), 1775 clientes de alto riesgo no fueron detectados (Falsos Negativos), 2593 clientes de bajo riesgo fueron correctamente clasificados (Verdaderos Negativos), y 933 clientes de bajo riesgo fueron clasificados incorrectamente como de alto riesgo (Falsos Positivos). Desde una perspectiva de negocio, esto significa que el modelo detecta el 55.4% de todos los clientes de alto riesgo, mientras que de todos los clientes realmente buenos, el 26.5% son rechazados incorrectamente. La baja tasa de detección de clientes de alto riesgo sugiere que se debe revisar el punto de corte o mejorar el modelo para aumentar la sensibilidad.
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-group">
+          <h3>Coeficiente Gini y Curva de Lorenz</h3>
+          <div class="chart-container">
+            <img class="chart" src="grafico_gini.png" alt="Curva de Lorenz y Gini">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> La curva de Lorenz y el coeficiente Gini muestran la desigualdad en la distribución de predicciones. Valores cercanos a 1 indican mejor discriminación.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El coeficiente Gini mide la desigualdad en la distribución de predicciones entre buenos y malos clientes. Con un valor de 0.397, el modelo muestra una capacidad discriminativa moderada. Podría ser suficiente para algunas aplicaciones, pero hay margen de mejora.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+        <div class="chart-group">
+          <div class="container">
+            <div class="header-title">
+              <h1>Análisis por Deciles</h1>
+            </div>
+          <h3>Tasa de Malos por Decil</h3>
+          <div class="chart-container">
+            <img class="chart" src="tasa_malos_por_decil.png" alt="Tasa de Malos por Decil">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Muestra la tasa de incumplimiento por cada decil de riesgo. Se espera que disminuya de decil 1 a 10.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El gráfico de tasa de malos por decil muestra la concentración de riesgo a lo largo de los deciles ordenados por probabilidad predicha. La ratio entre el decil de mayor riesgo (69.5%) y el de menor riesgo (15.2%) es de 4.6x, lo que indica una buena capacidad discriminativa del modelo. La tendencia de la tasa de malos es consistentemente decreciente a lo largo de los deciles, lo que confirma que el ordenamiento por riesgo predicho es efectivo. El decil de mayor riesgo tiene una tasa de incumplimiento de 69.5%, que es 1.7 veces la tasa promedio (41.8%). Esta marcada diferenciación entre deciles permite implementar estrategias comerciales y de riesgo altamente segmentadas, con políticas más estrictas para los primeros deciles y ofreciendo condiciones preferenciales a los deciles de menor riesgo.
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-group">
+          <h3>Curva de Ganancia Acumulada</h3>
+          <div class="chart-container">
+            <img class="chart" src="curva_ganancia.png" alt="Curva de Ganancia Acumulada">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Esta curva muestra el porcentaje de incumplimientos capturados al seleccionar un porcentaje de la población ordenada por riesgo.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> La curva de ganancia muestra la eficiencia del modelo para identificar clientes de alto riesgo cuando se ordena la población por riesgo predicho. El modelo muestra una concentración de riesgo moderada, capturando el 44.1% de todos los clientes malos en el 30% de la población con mayor riesgo predicho. Específicamente, el modelo identifica el 31.7% de todos los clientes malos en el primer 20% de la población, y el 66.7% en el primer 50%. Para mejorar la eficiencia en la gestión de riesgo, podría considerarse complementar este modelo con variables o técnicas adicionales que ayuden a concentrar mejor los clientes de alto riesgo en los primeros segmentos.
+            </div>
+          </div>
+        </div>
+        
+        <h3>Estadísticas por Decil</h3>
+        <p>Se ha generado un archivo CSV con las estadísticas detalladas por decil (estadisticas_deciles.csv)</p>
+        <div class="chart-interpretation">
+          <strong>Interpretación de las estadísticas:</strong> La tabla de estadísticas por decil permite analizar en detalle el rendimiento del modelo en cada segmento de riesgo. Los primeros 3 deciles (30% de la población con mayor riesgo predicho) concentran el 44.1% del total de clientes malos. El decil 1 muestra la mayor tasa de malos con 69.5%, mientras que el decil 10 tiene la menor tasa con apenas 15.2%. El rango de probabilidades predichas va desde 0.1953 hasta 0.6928, con variaciones significativas entre deciles. Esta segmentación permite diseñar estrategias específicas para cada nivel de riesgo: por ejemplo, implementar requisitos adicionales o garantías para los deciles 1-3, condiciones estándar para los deciles 4-7, y posibles beneficios como tasas preferenciales o límites más altos para los deciles 8-10. También se puede utilizar esta información para ajustar los niveles de aprovisionamiento según el perfil de riesgo, o para estrategias de pricing basado en riesgo.
+        </div>
+        <table>
+          <tr>
+            <th>Decil</th>
+            <th>N</th>
+            <th>N Malos</th>
+            <th>Tasa Malos</th>
+            <th>Min Pred</th>
+            <th>Max Pred</th>
+            <th>Avg Pred</th>
+          </tr>
+          <tr><td>1</td><td>751</td><td>522</td><td>69.51%</td><td>0.6371</td><td>0.6928</td><td>0.6598</td></tr><tr><td>2</td><td>751</td><td>473</td><td>62.98%</td><td>0.6048</td><td>0.6371</td><td>0.6191</td></tr><tr><td>3</td><td>751</td><td>391</td><td>52.06%</td><td>0.5621</td><td>0.6048</td><td>0.5839</td></tr><tr><td>4</td><td>751</td><td>365</td><td>48.60%</td><td>0.5383</td><td>0.5621</td><td>0.5479</td></tr><tr><td>5</td><td>751</td><td>344</td><td>45.81%</td><td>0.5037</td><td>0.5383</td><td>0.5228</td></tr><tr><td>6</td><td>751</td><td>304</td><td>40.48%</td><td>0.4620</td><td>0.5037</td><td>0.4843</td></tr><tr><td>7</td><td>751</td><td>274</td><td>36.48%</td><td>0.4309</td><td>0.4620</td><td>0.4472</td></tr><tr><td>8</td><td>751</td><td>193</td><td>25.70%</td><td>0.3864</td><td>0.4308</td><td>0.4090</td></tr><tr><td>9</td><td>750</td><td>160</td><td>21.33%</td><td>0.3294</td><td>0.3864</td><td>0.3612</td></tr><tr><td>10</td><td>750</td><td>114</td><td>15.20%</td><td>0.1953</td><td>0.3294</td><td>0.2818</td></tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="section">
+        <div class="chart-group">
+          <div class="container">
+            <div class="header-title">
+              <h1>Análisis de Puntos de Corte</h1>
+            </div>
+          <h3>Métricas por Punto de Corte</h3>
+          <div class="chart-container">
+            <img class="chart" src="metricas_por_punto_corte.png" alt="Métricas por Punto de Corte">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Este gráfico muestra la variación de accuracy, sensitivity, specificity y F1 score al cambiar el punto de corte.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El gráfico de métricas por punto de corte muestra cómo varían las principales métricas de rendimiento al cambiar el umbral de clasificación. El punto de corte óptimo según KS es 0.492, pero existen otros puntos relevantes: el punto 0.5 ofrece el mejor equilibrio entre sensibilidad y especificidad (ambas cerca de 67.9%); el punto 0.55 maximiza la accuracy global (65.4%); y el punto 0.4 maximiza el F1-score (63.1%), que es una media armónica entre precisión y sensibilidad. La elección del punto de corte debería basarse en los objetivos específicos del negocio: si la prioridad es maximizar la detección de clientes de alto riesgo, se recomienda un punto más bajo (mayor sensibilidad); si la prioridad es minimizar los rechazos incorrectos de buenos clientes, se recomienda un punto más alto (mayor especificidad); y si se busca un balance entre ambos objetivos, el punto 0.5 o el punto 0.4 serían opciones adecuadas.
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-group">
+          <h3>Impacto en Tasa de Aprobación y Bad Rate</h3>
+          <div class="chart-container">
+            <img class="chart" src="tasas_aprobacion.png" alt="Tasas de Aprobación">
+            <div class="chart-explanation">
+              <strong>Cómo interpretar:</strong> Muestra la relación entre el punto de corte, la tasa de aprobación y el bad rate en los aprobados.
+            </div>
+            <div class="chart-interpretation">
+              <strong>Interpretación para este modelo:</strong> El gráfico de tasas de aprobación muestra la relación entre el punto de corte, la tasa de aprobación y el bad rate resultante, ilustrando el trade-off fundamental entre volumen y riesgo. Como es de esperar, a medida que se reduce el punto de corte, aumenta la tasa de aprobación pero también aumenta el bad rate entre los aprobados. Si se establece un objetivo de bad rate cercano al 5%, el punto de corte apropiado sería aproximadamente 0.3, resultando en una tasa de aprobación del 6.3% y un bad rate exacto del 13%. Por otro lado, si el objetivo de negocio es mantener una tasa de aprobación del 70%, el punto de corte debería ser cercano a 0.55, lo que resultaría en un bad rate del 32.4%. La elección final del punto de corte dependerá del apetito de riesgo de la organización y de los objetivos comerciales. Un enfoque conservador priorizaría mantener el bad rate por debajo de un umbral específico, mientras que un enfoque orientado al crecimiento podría priorizar alcanzar una determinada tasa de aprobación, aceptando el incremento correspondiente en el riesgo. También es importante considerar que estos resultados se basan en datos históricos, y la relación entre punto de corte, aprobaciones y bad rate podría variar con el tiempo o en diferentes segmentos de clientes.
+            </div>
+          </div>
+        </div>
+        
+        <h3>Evaluación de Diferentes Puntos de Corte</h3>
+        <p>Se ha generado un archivo CSV con los resultados detallados para diferentes puntos de corte (analisis_puntos_corte.csv)</p>
+        <div class="chart-interpretation">
+          <strong>Interpretación de los resultados:</strong> La tabla de evaluación de diferentes puntos de corte proporciona una visión detallada de cómo varían las métricas de rendimiento con distintos umbrales de clasificación. Los puntos de corte con mejor accuracy son: 0.550 (65.4%), 0.600 (64.7%), 0.500 (64.0%). Los puntos con mejor balance entre precisión y sensibilidad (F1 score) son: 0.400 (63.1%), 0.450 (63.0%), 0.350 (61.6%). La tabla muestra claramente cómo varía el trade-off entre tasa de aprobación y bad rate: por ejemplo, con un punto de corte de 0.3, la tasa de aprobación es del 6.3% con un bad rate del 13%, mientras que con 0.7, la aprobación aumenta al 100% pero el bad rate sube al 41.8%. La información de esta tabla es especialmente útil para realizar análisis de sensibilidad y planificación de escenarios, permitiendo a los equipos de negocio y riesgo evaluar el impacto de diferentes políticas de aprobación.
+        </div>
+        <table>
+          <tr>
+            <th>Punto de Corte</th>
+            <th>Accuracy</th>
+            <th>Sensitivity</th>
+            <th>Specificity</th>
+            <th>Tasa de Aprobación</th>
+            <th>Bad Rate en Aprobados</th>
+          </tr>
+          <tr><td>0.30</td><td>46.51%</td><td>98.03%</td><td>9.48%</td><td>6.34%</td><td>13.03%</td></tr><tr><td>0.35</td><td>50.31%</td><td>95.22%</td><td>18.02%</td><td>12.48%</td><td>16.01%</td></tr><tr><td>0.40</td><td>56.09%</td><td>89.62%</td><td>31.98%</td><td>22.95%</td><td>18.92%</td></tr><tr><td>0.45</td><td>60.87%</td><td>79.68%</td><td>47.34%</td><td>36.04%</td><td>23.58%</td></tr><tr><td>0.50</td><td>63.99%</td><td>67.87%</td><td>61.20%</td><td>49.04%</td><td>27.40%</td></tr><tr><td>0.55</td><td>65.37%</td><td>48.25%</td><td>77.68%</td><td>66.84%</td><td>32.38%</td></tr><tr><td>0.60</td><td>64.72%</td><td>33.31%</td><td>87.29%</td><td>78.68%</td><td>35.45%</td></tr><tr><td>0.65</td><td>60.91%</td><td>11.43%</td><td>96.47%</td><td>93.17%</td><td>39.76%</td></tr><tr><td>0.70</td><td>58.18%</td><td>0.00%</td><td>100.00%</td><td>100.00%</td><td>41.82%</td></tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Glosario y Guía de Interpretación</h2>
+      <p>A continuación, se presenta una breve guía para la interpretación correcta de las métricas y gráficos incluidos en este reporte:</p>
+      
+      <h3>Métricas Principales</h3>
+      <ul>
+        <li><strong>AUC (Area Under Curve):</strong> Mide la capacidad discriminativa del modelo. Varía de 0.5 (modelo aleatorio) a 1 (modelo perfecto). AUC &gt; 0.75 se considera bueno para modelos de riesgo crediticio.</li>
+        <li><strong>KS (Kolmogorov-Smirnov):</strong> Mide la máxima separación entre clientes buenos y malos. KS &gt; 0.3 indica buena separación.</li>
+        <li><strong>Gini:</strong> Relacionado con el AUC (Gini = 2*AUC-1). Mide la desigualdad en la distribución de predicciones. Valores más altos indican mejor discriminación.</li>
+        <li><strong>Accuracy:</strong> Porcentaje total de clasificaciones correctas. Debe interpretarse junto con sensibilidad y especificidad.</li>
+        <li><strong>Sensibilidad:</strong> Porcentaje de clientes de alto riesgo correctamente identificados.</li>
+        <li><strong>Especificidad:</strong> Porcentaje de clientes de bajo riesgo correctamente identificados.</li>
+      </ul>
+      
+      <h3>Interpretación de Probabilidades</h3>
+      <p>En este modelo, una mayor probabilidad indica mayor riesgo de incumplimiento:</p>
+      <ul>
+        <li>Probabilidades cercanas a 1: Alto riesgo de incumplimiento</li>
+        <li>Probabilidades cercanas a 0: Bajo riesgo de incumplimiento</li>
+      </ul>
+      
+      <h3>Aspectos Clave de la Evaluación</h3>
+      <ul>
+        <li><strong>Poder Discriminativo:</strong> Capacidad del modelo para separar clientes de alto y bajo riesgo (medido por AUC, KS, Gini).</li>
+        <li><strong>Calibración:</strong> Precisión de las probabilidades predichas respecto a las tasas reales observadas.</li>
+        <li><strong>Balance del Modelo:</strong> Equilibrio entre sensibilidad y especificidad.</li>
+        <li><strong>Estabilidad por Segmentos:</strong> Consistencia del rendimiento en diferentes grupos o deciles.</li>
+      </ul>
+      
+      <p>Para interpretaciones más detalladas de cada gráfico, consulte las explicaciones incluidas junto a cada visualización en este reporte.</p>
+    </div>
+    
+    <div class="footer">
+      <p>Reporte generado el 28/02/2025.</p>
+      <p>Para consultas o análisis adicionales, contacte al equipo de Riesgo.</p>
+    </div>
+  </div>
+</body>
+</html>
+

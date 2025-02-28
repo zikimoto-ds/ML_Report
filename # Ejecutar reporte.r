@@ -2,7 +2,7 @@
 library(pagedown)
 
 # cargar scrit del reporte
-source("reporte_backtesting_simple_con_explicaciones.R")
+source("# Reporte Simplificado de Backtesting.r")
 
 # ingresar parámetros en la funcion 
 resultado <- generar_reporte_html(
@@ -13,10 +13,10 @@ resultado <- generar_reporte_html(
 gc()
 
 # Ruta de la carpeta donde vive la salida del archivo
-ruta <- "C:/Users/mfsierra/fincomun.com.mx/Riesgos - Área de trabajo modelos de riesgo/2. Proveedores/1. AIS/a. Modelo de originación T-Conecta/pipeline_tc_v2/pipeline_origenTC/"
+ruta <- getwd()
 
 # ruta completa
-carpeta_salida <- paste0(ruta,"reporte_backtesting_feb2025_v4")
+carpeta_salida <- paste0(ruta,"/","reporte_backtesting_feb2025_v4")
 
 # Convertir HTML a PDF
 pagedown::chrome_print(

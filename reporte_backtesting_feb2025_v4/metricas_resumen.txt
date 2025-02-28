@@ -1,0 +1,11 @@
+=== RESUMEN DE MÉTRICAS DE DESEMPEÑO ===
+AUC: 0.6983
+KS: 0.297 (en punto de corte: 0.4924)
+Gini: 0.3966
+IV: 0.5215
+Accuracy: 0.6393
+Sensitivity: 0.7029
+Specificity: 0.5936
+Ratio de tasa de malos decil 1 / decil 10: 4.57
+Máxima desviación en calibración: 15.2%
+

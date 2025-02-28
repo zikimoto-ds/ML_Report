@@ -1,0 +1,37 @@
+=== GLOSARIO DE TÉRMINOS Y MÉTRICAS ===
+
+AUC (Area Under Curve): Mide la capacidad discriminativa del modelo. Valores cercanos a 1 indican mejor discriminación. AUC > 0.75 generalmente se considera bueno.
+
+KS (Kolmogorov-Smirnov): Mide la máxima separación entre las distribuciones de buenos y malos clientes. Valores más altos indican mejor separación. KS > 0.3 se considera bueno.
+
+Gini: Coeficiente que mide la desigualdad en la distribución de predicciones. Se relaciona con el AUC mediante la fórmula Gini = 2*AUC-1. Valores más altos indican mejor discriminación.
+
+Punto de Corte: Umbral de probabilidad a partir del cual un cliente se clasifica como de alto riesgo. Clientes con probabilidad igual o mayor se consideran de alto riesgo.
+
+Sensibilidad: Porcentaje de clientes malos correctamente identificados como de alto riesgo. También llamada tasa de verdaderos positivos.
+
+Especificidad: Porcentaje de clientes buenos correctamente identificados como de bajo riesgo. También llamada tasa de verdaderos negativos.
+
+Accuracy: Porcentaje total de clasificaciones correctas (tanto buenos como malos).
+
+Tasa de Aprobación: Porcentaje de clientes que serían aprobados con un determinado punto de corte.
+
+Bad Rate: Porcentaje de clientes malos dentro de un grupo determinado. El bad rate en aprobados es crítico para la gestión de riesgo.
+
+IV (Information Value): Mide el poder predictivo global del modelo. Valores entre 0.3 y 0.5 se consideran buenos, pero valores muy altos (>0.6) pueden indicar sobreajuste.
+
+Calibración: Grado de coincidencia entre las probabilidades predichas y las tasas de incumplimiento observadas.
+
+Deciles: División de la población en 10 grupos según su nivel de riesgo predicho (decil 1 = mayor riesgo, decil 10 = menor riesgo).
+
+Matriz de Confusión: Tabla que muestra las predicciones correctas e incorrectas del modelo.
+ - Verdaderos Positivos (VP): Clientes clasificados como malos que realmente son malos.
+ - Falsos Positivos (FP): Clientes clasificados como malos que realmente son buenos.
+ - Verdaderos Negativos (VN): Clientes clasificados como buenos que realmente son buenos.
+ - Falsos Negativos (FN): Clientes clasificados como buenos que realmente son malos.
+
+F1 Score: Media armónica entre la precisión y la sensibilidad. Útil cuando se busca un balance entre ambas métricas.
+
+Precisión (Precision): Porcentaje de clientes correctamente clasificados como malos entre todos los clasificados como malos.
+
+
